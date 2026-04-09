@@ -1,35 +1,34 @@
 import psycopg2
 import os
 
-# 1. Configuration de la connexion à ta base de données PostgreSQL
-# À MODIFIER avec tes propres identifiants
+# 1. Configuration de la connexion à la base de données 
 DB_CONFIG = {
-    "dbname": "nom_de_ta_base",
-    "user": "postgres",
-    "password": "ton_mot_de_passe",
+    "dbname": "aviation_db",
+    "user": "admin",
+    "password": "password123",
     "host": "localhost",
     "port": "5432"
 }
 
-# 2. Ordre strict d'insertion pour respecter les clés étrangères
+# 2. Ordre d'insertion pour respecter les clés étrangères
 # Format : ("Nom_de_la_table", "Nom_du_fichier.csv")
 TABLES_ORDER = [
-    # Niveau 0 (Aucune clé étrangère)
-    ("Pays", "Pays.csv"),
-    ("Categories", "Categories.csv"),
-    ("Types", "Types.csv"),
-    ("Airports", "Airports.csv"),
+    # Niveau 0
+    ("Pays", "csvs/Pays.csv"),
+    ("Categories", "csvs/Categories.csv"),
+    ("Types", "csvs/Types.csv"),
+    ("Airports", "csvs/Airports.csv"),
     
-    # Niveau 1 (Dépendent du niveau 0)
-    ("Villes", "Villes.csv"),
-    ("Compagnies", "Compagnies.csv"),
+    # Niveau 1
+    ("Villes", "csvs/Villes.csv"),
+    ("Compagnies", "csvs/Compagnies.csv"),
     
-    # Niveau 2 (Dépendent du niveau 1)
-    ("Avions", "Avions.csv"),
-    ("VolsReferences", "VolsReferences.csv"),
+    # Niveau 2
+    ("Avions", "csvs/Avions.csv"),
+    ("VolsReferences", "csvs/VolsReferences.csv"),
     
-    # Niveau 3 (Dépend du niveau 2)
-    ("Vols", "Vols.csv")
+    # Niveau 3
+    ("Vols", "csvs/Vols.csv")
 ]
 
 def import_csv_to_postgres():
@@ -46,11 +45,11 @@ def import_csv_to_postgres():
                 print(f"ERREUR : Le fichier {csv_file} est introuvable. Importation annulée pour cette table.")
                 continue
 
-            print(f"⏳ Importation en cours pour la table '{table_name}' depuis {csv_file}...")
+            print(f"Importation en cours pour la table '{table_name}' depuis {csv_file}...")
             
             # Ouverture du fichier CSV et exécution de la commande COPY
             with open(csv_file, 'r', encoding='utf-8') as f:
-                # COPY est la méthode la plus optimisée sous Postgres pour insérer des CSV
+                # COPY pour insérer des CSV
                 # HEADER précise que la première ligne contient le nom des colonnes
                 sql_copy_query = f"COPY {table_name} FROM STDIN WITH CSV HEADER DELIMITER ','"
                 
