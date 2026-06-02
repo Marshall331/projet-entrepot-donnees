@@ -1,0 +1,52 @@
+@startuml
+
+entity "Fait_Maintenance" as fact {
+    * CodeA
+    * CodeVR
+    * DateV
+    --
+    DureeTotalVol
+    PoidsTotalVol
+    DistanceTotal
+    SiegesLibres
+}
+
+entity "Dim_Avion" as avion {
+    * CodeA
+    --
+    Modele
+    Constructeur
+    NbrSieges
+    ChargeMax
+    PoidsAVide
+    AnneeAchat
+    TypeAvion
+    CodeC
+    NomC
+    PaysSiege
+}
+
+entity "Dim_VolReference" as volref {
+    * CodeVR
+    --
+    Frequence
+    DistanceBase
+    HeureDepart
+    HeureArrivee
+    CategorieVol
+}
+
+entity "Dim_Temps" as temps {
+    * DateV
+    --
+    Annee
+    Mois
+    Trimestre
+}
+
+' Relations de type 1 à plusieurs (schéma en étoile)
+avion "1" -- "0..*" fact : "concerne >"
+volref "1" -- "0..*" fact : "est basé sur >"
+temps "1" -- "0..*" fact : "se déroule à >"
+
+@endum
