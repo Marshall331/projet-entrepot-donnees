@@ -1,0 +1,52 @@
+@startuml
+
+
+entity "Fact_Marketing" as fact {
+    * CodeA
+    * CodeVR
+    * DateV
+    --
+    NbrPassagersEco
+    NbrPassagersAffaire
+    NbrPassagersPremiere
+    TotalPassagers
+    TotalVols
+}
+
+entity "Dim_Avion_Marketing" as avion {
+    * CodeA
+    --
+    Modele
+    Constructeur
+    CategorieAppareil
+}
+
+entity "Dim_Trajet" as trajet {
+    * CodeVR
+    --
+    Frequence
+    CodeAP_Dep
+    NomAP_Dep
+    VilleDep
+    PaysDep
+    CodeAP_Arr
+    NomAP_Arr
+    VilleArr
+    PaysArr
+}
+
+entity "Dim_Temps_Marketing" as temps {
+    * DateV
+    --
+    Annee
+    Mois
+    Trimestre
+    Saison 
+}
+
+' Relations de type 1 à plusieurs
+avion "1" -- "0..*" fact : "est utilisé pour >"
+trajet "1" -- "0..*" fact : "concerne >"
+temps "1" -- "0..*" fact : "se déroule à >"
+
+@endum
